@@ -47,4 +47,14 @@ class TestTextNode(unittest.TestCase):
         child_node = ParentNode("span", [grandchild_node])
         parent_node = ParentNode("div", [child_node])
         self.assertEqual(parent_node.to_html(),"<div><span><b>grandchild</b></span></div>")
+
+    def test_many(self):
+        end = LeafNode("i", "end")
+        mid_1 = ParentNode("div", [end])
+        mid_2 = ParentNode("div", [mid_1])
+        mid_3 = ParentNode("div", [mid_2])
+        mid_4 = ParentNode("div", [mid_3])
+        mid_5 = ParentNode("div", [mid_4])
+        start = ParentNode("div", [mid_5])
+        self.assertEqual(start.to_html(), "<div><div><div><div><div><div><i>end</i></div></div></div></div></div></div>")
     # ============================== End ParentNode tests ==========================
