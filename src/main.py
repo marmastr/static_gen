@@ -1,36 +1,33 @@
-import logging
 import os
 import shutil
 
 
-PUBLIC_DIR = "./public"
-STATIC_DIR = "./static"
+PUBLIC_DIR = "./public/"
+STATIC_DIR = "./static/"
 
 
 def clear_public_dir(public_dir: str):
+    public_dir = os.path.abspath(public_dir)
     dir = os.path.exists(public_dir)
     if dir:
         shutil.rmtree(public_dir)
     os.mkdir(public_dir)
 
 def copy_files(static_dir: str, public_dir: str):
+    static_dir = os.path.abspath(static_dir)
+    public_dir = os.path.abspath(public_dir)
     files = os.listdir(static_dir)
     for file in files:
-        if os.path.is_dir(file):
-            new_folder = os.path.join(public_dir,file)
-            print(new_folder,os.path.isfile(file))
-            os.mkdir(new_folder)
+        print("processing: ",file)
+        path_source = os.path.join(static_dir,file)
+        path_dest = os.path.join(public_dir,file)
+        if os.path.isdir(path_source):
+            os.mkdir(path_dest)
+            copy_files(path_source, path_dest)
 
-            new_static_dir = os.path.join(static_dir,file)
-            logging.info(new_static_dir)
-
-            new_public_dir = os.path.join(public_dir,file)
-            logging.info(new_public_dir)
-
-            copy_files(new_static_dir, new_public_dir)
-            continue
-        result = shutil.copy(file,public_dir)
-        logging.info("Coppied:", result)
+        if os.path.isfile(path_source):
+            result = shutil.copy(path_source,public_dir)
+            print(result)
 
 def main():
     clear_public_dir(PUBLIC_DIR)
