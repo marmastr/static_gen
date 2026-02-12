@@ -1,5 +1,10 @@
 import unittest
-from blocks import markdown_to_html_node, markdown_to_blocks, block_to_block_type, BlockType
+from markdown_blocks import (
+    markdown_to_html_node,
+    markdown_to_blocks,
+    block_to_block_type,
+    BlockType,
+)
 
 
 class TestMarkdownToHTML(unittest.TestCase):
@@ -59,8 +64,6 @@ This is the same paragraph on a new line
         self.assertEqual(block_to_block_type(block), BlockType.OLIST)
         block = "paragraph"
         self.assertEqual(block_to_block_type(block), BlockType.PARAGRAPH)
-
-
 
     def test_paragraph(self):
         md = """
@@ -145,7 +148,7 @@ this is paragraph text
             "<div><blockquote>This is a blockquote block</blockquote><p>this is paragraph text</p></div>",
         )
 
-    def test_code(self):
+    def test_codeblock(self):
         md = """
 ```
 This is text that _should_ remain
@@ -163,3 +166,4 @@ the **same** even with inline stuff
 
 if __name__ == "__main__":
     unittest.main()
+

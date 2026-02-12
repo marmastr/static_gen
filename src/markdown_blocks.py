@@ -1,7 +1,7 @@
 from enum import Enum
 
 from htmlnode import ParentNode
-from inline import text_to_textnodes
+from inline_markdown import text_to_textnodes
 from textnode import text_node_to_html_node, TextNode, TextType
 
 
@@ -50,7 +50,6 @@ def block_to_block_type(block):
             i += 1
         return BlockType.OLIST
     return BlockType.PARAGRAPH
-
 
 
 def markdown_to_html_node(markdown):
@@ -150,3 +149,4 @@ def quote_to_html_node(block):
     content = " ".join(new_lines)
     children = text_to_children(content)
     return ParentNode("blockquote", children)
+

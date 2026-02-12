@@ -1,5 +1,5 @@
 import unittest
-from inline import (
+from inline_markdown import (
     split_nodes_delimiter,
     split_nodes_image,
     split_nodes_link,
@@ -118,7 +118,7 @@ class TestInlineMarkdown(unittest.TestCase):
         self.assertListEqual(
             [
                 TextNode("This is text with an ", TextType.TEXT),
-                TextNode("image", TextType.IMG, "https://i.imgur.com/zjjcJKZ.png"),
+                TextNode("image", TextType.IMAGE, "https://i.imgur.com/zjjcJKZ.png"),
             ],
             new_nodes,
         )
@@ -131,7 +131,7 @@ class TestInlineMarkdown(unittest.TestCase):
         new_nodes = split_nodes_image([node])
         self.assertListEqual(
             [
-                TextNode("image", TextType.IMG, "https://www.example.COM/IMAGE.PNG"),
+                TextNode("image", TextType.IMAGE, "https://www.example.COM/IMAGE.PNG"),
             ],
             new_nodes,
         )
@@ -145,10 +145,10 @@ class TestInlineMarkdown(unittest.TestCase):
         self.assertListEqual(
             [
                 TextNode("This is text with an ", TextType.TEXT),
-                TextNode("image", TextType.IMG, "https://i.imgur.com/zjjcJKZ.png"),
+                TextNode("image", TextType.IMAGE, "https://i.imgur.com/zjjcJKZ.png"),
                 TextNode(" and another ", TextType.TEXT),
                 TextNode(
-                    "second image", TextType.IMG, "https://i.imgur.com/3elNhQu.png"
+                    "second image", TextType.IMAGE, "https://i.imgur.com/3elNhQu.png"
                 ),
             ],
             new_nodes,
@@ -184,7 +184,7 @@ class TestInlineMarkdown(unittest.TestCase):
                 TextNode(" word and a ", TextType.TEXT),
                 TextNode("code block", TextType.CODE),
                 TextNode(" and an ", TextType.TEXT),
-                TextNode("image", TextType.IMG, "https://i.imgur.com/zjjcJKZ.png"),
+                TextNode("image", TextType.IMAGE, "https://i.imgur.com/zjjcJKZ.png"),
                 TextNode(" and a ", TextType.TEXT),
                 TextNode("link", TextType.LINK, "https://boot.dev"),
             ],
