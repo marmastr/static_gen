@@ -3,7 +3,7 @@ from pathlib import Path, PurePath
 from markdown_blocks import markdown_to_html_node
 
 
-def generate_page(from_path, template_path, dest_path):
+def generate_page(from_path, template_path, dest_path, basepath):
     print(f" * {from_path} {template_path} -> {dest_path}")
     from_file = open(from_path, "r")
     markdown_content = from_file.read()
@@ -19,6 +19,7 @@ def generate_page(from_path, template_path, dest_path):
     title = extract_title(markdown_content)
     template = template.replace("{{ Title }}", title)
     template = template.replace("{{ Content }}", html)
+    template = template.replace('href="/', f'href="{basepath}')
 
     dest_dir_path = os.path.dirname(dest_path)
     if dest_dir_path != "":
@@ -35,10 +36,10 @@ def extract_title(md):
     raise ValueError("no title found")
 
 
-def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
+def generate_pages_recursive(dir_path_content, template_path, dest_dir_path, basepath):
     md_paths = Path(dir_path_content).rglob('*.md')
     for path in md_paths:
         path = PurePath.joinpath(path.relative_to(dir_path_content))
         source = PurePath(dir_path_content).joinpath(path)
         destination = PurePath(dest_dir_path).joinpath(path).with_suffix('.html')
-        generate_page(source,template_path,destination)
+        generate_page(source,template_path,destination, basepath)
